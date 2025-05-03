@@ -4,12 +4,10 @@ import random
 
 app = FastAPI()
 
-# Endpoint raíz, opcional, útil para pruebas
 @app.get("/")
 def home():
     return {"mensaje": "¡Bienvenido a la Caracola Mágica!"}
 
-# Endpoint principal: POST con lista de opciones
 @app.post("/elegir")
 async def elegir(request: Request):
     datos = await request.json()
@@ -21,7 +19,7 @@ async def elegir(request: Request):
     palabra_elegida = random.choice(opciones)
     return {"palabra_elegida": palabra_elegida}
 
-# Endpoint para monitoreo desde UptimeRobot
-@app.get("/ping")
+# ✅ Ahora acepta GET y HEAD para UptimeRobot
+@app.api_route("/ping", methods=["GET", "HEAD"])
 def ping():
     return {"status": "ok"}

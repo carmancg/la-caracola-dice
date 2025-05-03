@@ -1,14 +1,12 @@
-
 from fastapi import FastAPI
 from pydantic import BaseModel
 import random
 
 app = FastAPI()
 
-class PalabrasEntrada(BaseModel):
+class PalabrasInput(BaseModel):
     palabras: list[str]
 
 @app.post("/elegir")
-def elegir_palabra(entrada: PalabrasEntrada):
-    elegida = random.choice(entrada.palabras)
-    return {"palabra_elegida": elegida}
+def elegir_palabra(data: PalabrasInput):
+    return {"palabra_elegida": random.choice(data.palabras)}

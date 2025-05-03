@@ -20,3 +20,27 @@ class PalabrasInput(BaseModel):
 @app.post("/elegir")
 def elegir_palabra(data: PalabrasInput):
     return {"palabra_elegida": random.choice(data.palabras)}
+
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+import random
+
+app = FastAPI()
+
+@app.get("/")
+def home():
+    return {"mensaje": "¡Bienvenido a la Caracola Mágica!"}
+
+@app.post("/elegir")
+async def elegir(request: Request):
+    datos = await request.json()
+    opciones = datos.get("opciones", [])
+    if not opciones:
+        return JSONResponse(content={"error": "No se proporcionaron opciones"}, status_code=400)
+    return {"palabra_elegida": random.choice(opciones)}
+
+# ✅ Este es el nuevo endpoint para UptimeRobot
+@app.get("/ping")
+def ping():
+    return {"status": "ok"}
+
